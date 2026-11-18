@@ -1,0 +1,24 @@
+{
+  "name": "femme-vogue-fashion-platform",
+  "version": "1.0.0",
+  "description": "Femme Vogue High-Fashion Editorial Magazine & Boutique Platform",
+  "private": true,
+  "scripts": {
+    "install:all": "cmd /c \"cd client && npm install\" && cmd /c \"cd server && npm install\"",
+    "dev:client": "cmd /c \"cd client && npm run dev\"",
+    "dev:server": "cmd /c \"cd server && npm run dev\"",
+    "build:client": "cmd /c \"cd client && npm run build\"",
+    "start:server": "cmd /c \"cd server && npm start\""
+  },
+  "keywords": [
+    "fashion",
+    "editorial",
+    "boutique",
+    "react",
+    "vite",
+    "express",
+    "mongodb"
+  ],
+  "author": "Femme Vogue Media Group",
+  "license": "MIT"
+}
