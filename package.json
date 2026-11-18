@@ -1,6 +1,7 @@
 {
   "name": "femme-vogue-fashion-platform",
   "version": "1.0.0",
+  "type": "module",
   "description": "Femme Vogue High-Fashion Editorial Magazine & Boutique Platform",
   "private": true,
   "scripts": {
