@@ -5,11 +5,14 @@
   "description": "Femme Vogue High-Fashion Editorial Magazine & Boutique Platform",
   "private": true,
   "scripts": {
-    "install:all": "cmd /c \"cd client && npm install\" && cmd /c \"cd server && npm install\"",
-    "dev:client": "cmd /c \"cd client && npm run dev\"",
-    "dev:server": "cmd /c \"cd server && npm run dev\"",
-    "build:client": "cmd /c \"cd client && npm run build\"",
-    "start:server": "cmd /c \"cd server && npm start\""
+    "build": "cd client && npm install && npm run build",
+    "start": "cd server && npm install && npm start",
+    "dev": "cd client && npm run dev",
+    "install:all": "cd client && npm install && cd ../server && npm install",
+    "dev:client": "cd client && npm run dev",
+    "dev:server": "cd server && npm run dev",
+    "build:client": "cd client && npm run build",
+    "start:server": "cd server && npm start"
   },
   "keywords": [
     "fashion",

@@ -3,6 +3,7 @@ import cors from 'cors';
 import morgan from 'morgan';
 import dotenv from 'dotenv';
 import path from 'path';
+import fs from 'fs';
 import { fileURLToPath } from 'url';
 
 import { connectDB, getDBStatus } from './config/db.js';
@@ -62,22 +63,35 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// Root welcome endpoint
-app.get('/', (req, res) => {
-  res.json({
-    message: 'Femme Vogue Haute Couture API Server is running.',
-    endpoints: [
-      '/api/health',
-      '/api/products',
-      '/api/trends',
-      '/api/beauty',
-      '/api/lifestyle',
-      '/api/quiz/questions',
-      '/api/member/profile',
-      '/api/orders'
-    ]
+// Serve static client build if available (Render full-stack & preview support)
+const clientDistPath = path.resolve(__dirname, '../../client/dist');
+const altClientDistPath = path.resolve(__dirname, '../client/dist');
+const finalDistPath = fs.existsSync(clientDistPath) ? clientDistPath : (fs.existsSync(altClientDistPath) ? altClientDistPath : null);
+
+if (finalDistPath) {
+  app.use(express.static(finalDistPath));
+  app.get('*', (req, res, next) => {
+    if (req.path.startsWith('/api')) return next();
+    res.sendFile(path.join(finalDistPath, 'index.html'));
   });
-});
+} else {
+  // Root welcome endpoint
+  app.get('/', (req, res) => {
+    res.json({
+      message: 'Femme Vogue Haute Couture API Server is running.',
+      endpoints: [
+        '/api/health',
+        '/api/products',
+        '/api/trends',
+        '/api/beauty',
+        '/api/lifestyle',
+        '/api/quiz/questions',
+        '/api/member/profile',
+        '/api/orders'
+      ]
+    });
+  });
+}
 
 // Global Error Handler
 app.use((err, req, res, next) => {

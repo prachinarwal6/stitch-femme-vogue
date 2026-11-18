@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { api } from '../services/api';
+import { fallbackMemberProfile } from '../data/fallbackData';
 import { useCart } from '../context/CartContext';
 import { useWishlist } from '../context/WishlistContext';
 
@@ -7,7 +8,7 @@ export default function SalonPage({ onOpenConsultation }) {
   const { addToCart, showToast } = useCart();
   const { wishlist, toggleWishlist, toggleAlert } = useWishlist();
 
-  const [profile, setProfile] = useState(null);
+  const [profile, setProfile] = useState(fallbackMemberProfile);
   const [activeWishlistFilter, setActiveWishlistFilter] = useState('all');
   const [showOrderModal, setShowOrderModal] = useState(false);
   const [showInvitationModal, setShowInvitationModal] = useState(null);
@@ -16,11 +17,11 @@ export default function SalonPage({ onOpenConsultation }) {
 
   useEffect(() => {
     api.getMemberProfile()
-      .then(res => setProfile(res.data))
+      .then(res => { if (res && res.data) setProfile(res.data); })
       .catch(() => {});
   }, []);
 
-  if (!profile) return null;
+  const activeProfile = profile || fallbackMemberProfile;
 
   const filteredWishlist = activeWishlistFilter === 'all'
     ? wishlist

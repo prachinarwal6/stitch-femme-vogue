@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { api } from '../services/api';
+import { fallbackTrendingLooks, fallbackProducts } from '../data/fallbackData';
 import { useCart } from '../context/CartContext';
 import { useWishlist } from '../context/WishlistContext';
 
@@ -10,19 +11,19 @@ export default function HomePage({ onOpenConsultation }) {
   const { isInWishlist, toggleWishlist } = useWishlist();
 
   const [activeTrendingFilter, setActiveTrendingFilter] = useState('All');
-  const [trendingLooks, setTrendingLooks] = useState([]);
-  const [boutiqueProducts, setBoutiqueProducts] = useState([]);
+  const [trendingLooks, setTrendingLooks] = useState(fallbackTrendingLooks);
+  const [boutiqueProducts, setBoutiqueProducts] = useState(fallbackProducts);
   const [newsletterEmail, setNewsletterEmail] = useState('');
   const [isSubscribing, setIsSubscribing] = useState(false);
 
   useEffect(() => {
     // Fetch initial trending looks and boutique pieces
     api.getTrendingLooks()
-      .then(res => setTrendingLooks(res.data))
+      .then(res => { if (res && res.data) setTrendingLooks(res.data); })
       .catch(() => {});
 
     api.getProducts()
-      .then(res => setBoutiqueProducts(res.data.slice(0, 4)))
+      .then(res => { if (res && res.data) setBoutiqueProducts(res.data.slice(0, 4)); })
       .catch(() => {});
   }, []);
 

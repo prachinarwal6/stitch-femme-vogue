@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { api } from '../services/api';
+import { fallbackTrends } from '../data/fallbackData';
 import { useCart } from '../context/CartContext';
 import { Link } from 'react-router-dom';
 
 export default function TrendsPage() {
   const { showToast, addToCart } = useCart();
-  const [trendsData, setTrendsData] = useState(null);
+  const [trendsData, setTrendsData] = useState(fallbackTrends);
   const [activeFilter, setActiveFilter] = useState('All Trends');
   const [isPlayingAudio, setIsPlayingAudio] = useState(false);
   const [audioSeconds, setAudioSeconds] = useState(74); // 01:14
@@ -13,7 +14,7 @@ export default function TrendsPage() {
 
   useEffect(() => {
     api.getTrends()
-      .then(res => setTrendsData(res.data))
+      .then(res => { if (res && res.data) setTrendsData(res.data); })
       .catch(() => {});
   }, []);
 
@@ -68,7 +69,7 @@ export default function TrendsPage() {
     'Street Radar'
   ];
 
-  if (!trendsData) return null;
+  const data = trendsData || fallbackTrends;
 
   return (
     <div className="flex flex-col w-full max-w-7xl mx-auto pb-safe space-y-space-xl">

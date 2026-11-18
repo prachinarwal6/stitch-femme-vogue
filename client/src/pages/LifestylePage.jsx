@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { api } from '../services/api';
+import { fallbackLifestyle } from '../data/fallbackData';
 import { useCart } from '../context/CartContext';
 
 export default function LifestylePage() {
   const { addToCart, showToast } = useCart();
-  const [lifestyleData, setLifestyleData] = useState(null);
+  const [lifestyleData, setLifestyleData] = useState(fallbackLifestyle);
   const [activeTheme, setActiveTheme] = useState('Tous les Thèmes');
   const [showTourModal, setShowTourModal] = useState(false);
 
   useEffect(() => {
     api.getLifestyle()
-      .then(res => setLifestyleData(res.data))
+      .then(res => { if (res && res.data) setLifestyleData(res.data); })
       .catch(() => {});
   }, []);
 
@@ -22,8 +23,8 @@ export default function LifestylePage() {
     'Rituals'
   ];
 
-  if (!lifestyleData) return null;
-  const { sanctuary } = lifestyleData;
+  const data = lifestyleData || fallbackLifestyle;
+  const { sanctuary } = data;
 
   return (
     <div className="flex flex-col w-full max-w-7xl mx-auto pb-safe">

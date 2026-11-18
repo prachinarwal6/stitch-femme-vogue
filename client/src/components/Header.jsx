@@ -61,12 +61,10 @@ export default function Header({ onOpenSearch, onOpenDrawer, onOpenAuth }) {
       {/* 2. Main Navigation Bar */}
       <div className="h-16 px-4 md:px-8 max-w-7xl mx-auto flex items-center justify-between">
         {/* Brand & Logo */}
-        <Link to="/" className="flex items-center gap-space-sm group">
-          <img
-            alt="Femme Vogue Logo"
-            className="h-8 w-auto object-contain transition-transform group-hover:scale-105"
-            src="https://lh3.googleusercontent.com/aida/AEtjO1Wijo08oYjqikDWopT6ZBGdO784Yxh04jQesjf9hzWh20YVgjfQ3xprfbICPJ68uil66qfWM6AraR3w3GIAo372VgQraTDyL59y-hrEqeypySFdG7-2cAkCZmeVKyy5e0GZGqKBw_R74isXbqHCMwqxrMVNSbcqm7ta4bpDyRyxBjYIjlrGaTdhdJXz-c7d_Oz5kH-X2hrZlZHdXASDWruCfZwBSkxoHembVYGmxsfz7iG1k7MvuTwS6mzc"
-          />
+        <Link to="/" className="flex items-center gap-2.5 group">
+          <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-on-primary font-headline-sm text-xs font-semibold tracking-wider shadow-sm transition-transform group-hover:scale-105">
+            FV
+          </div>
           <div className="flex flex-col">
             <span className="font-headline-sm text-headline-sm tracking-tight text-on-surface leading-none group-hover:text-primary transition-colors">
               Femme Vogue

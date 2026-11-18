@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { api } from '../services/api';
+import { fallbackBeauty } from '../data/fallbackData';
 import { useCart } from '../context/CartContext';
 
 export default function BeautyPage() {
   const { addToCart, showToast } = useCart();
-  const [beautyData, setBeautyData] = useState(null);
+  const [beautyData, setBeautyData] = useState(fallbackBeauty);
   const [activeChip, setActiveChip] = useState('All Beauty');
   const [selectedVideo, setSelectedVideo] = useState(null);
 
   useEffect(() => {
     api.getBeauty()
-      .then(res => setBeautyData(res.data))
+      .then(res => { if (res && res.data) setBeautyData(res.data); })
       .catch(() => {});
   }, []);
 
@@ -32,7 +33,7 @@ export default function BeautyPage() {
     }
   };
 
-  if (!beautyData) return null;
+  const data = beautyData || fallbackBeauty;
 
   return (
     <div className="flex flex-col w-full max-w-7xl mx-auto pb-safe">

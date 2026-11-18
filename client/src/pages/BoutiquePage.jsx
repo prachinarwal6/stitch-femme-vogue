@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { api } from '../services/api';
+import { fallbackProducts, fallbackBundle } from '../data/fallbackData';
 import { useCart } from '../context/CartContext';
 import { useWishlist } from '../context/WishlistContext';
 
@@ -7,8 +8,8 @@ export default function BoutiquePage({ onOpenConsultation }) {
   const { addToCart, addBundleToCart, applyCoupon } = useCart();
   const { isInWishlist, toggleWishlist } = useWishlist();
 
-  const [products, setProducts] = useState([]);
-  const [bundle, setBundle] = useState(null);
+  const [products, setProducts] = useState(fallbackProducts);
+  const [bundle, setBundle] = useState(fallbackBundle);
   const [activeCategory, setActiveCategory] = useState('New In');
   const [selectedSort, setSelectedSort] = useState('featured');
   const [selectedSize, setSelectedSize] = useState('All');
@@ -17,11 +18,11 @@ export default function BoutiquePage({ onOpenConsultation }) {
 
   useEffect(() => {
     api.getProducts()
-      .then(res => setProducts(res.data))
+      .then(res => { if (res && res.data) setProducts(res.data); })
       .catch(() => {});
 
     api.getFeaturedBundle()
-      .then(res => setBundle(res.data))
+      .then(res => { if (res && res.data) setBundle(res.data); })
       .catch(() => {});
   }, []);
 
